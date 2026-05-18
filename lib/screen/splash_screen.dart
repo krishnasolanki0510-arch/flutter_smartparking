@@ -44,9 +44,13 @@ class SplashScreen extends StatelessWidget {
           SizedBox(height: 20),
 
           Text(
-            "Slotify",
+            "AutoSlot",
 
-            style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold,color: Colors.white,
+            style: TextStyle(fontSize: 40,
+                             fontWeight: FontWeight.w800,
+                              letterSpacing: 2,
+                             color: Colors.white,
+                            fontStyle: FontStyle.italic,
             ),
           ),
 
