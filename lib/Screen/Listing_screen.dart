@@ -10,20 +10,20 @@ class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      home: const ParkingScreen(),
+      debugShowCheckedModeBanner: false,
+      home: const Parkingscreen(),
     );
   }
 }
 
-class ParkingScreen extends StatefulWidget {
-  const ParkingScreen({super.key});
+class Parkingscreen extends StatefulWidget {
+  const Parkingscreen({super.key});
 
   @override
-  State<ParkingScreen> createState() => _ParkingScreenState();
+  State<Parkingscreen> createState() => _ParkingScreenState();
 }
 
-class _ParkingScreenState extends State<ParkingScreen> {
+class _ParkingScreenState extends State<Parkingscreen> {
   Map<String, List<Map<String, dynamic>>> parkingData = {
     "Vadodara": [
       {"slot": "A1", "available": true},
@@ -54,104 +54,6 @@ class _ParkingScreenState extends State<ParkingScreen> {
   };
 
   String? selectedCity;
-
-  // Controllers
-  final TextEditingController cityController = TextEditingController();
-
-  final TextEditingController slotController = TextEditingController();
-
-  void addCity() {
-    showDialog(
-      context: context,
-
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Add City"),
-
-          content: TextField(
-            controller: cityController,
-
-            decoration: const InputDecoration(hintText: "Enter City Name"),
-          ),
-
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-
-              child: const Text("Cancel"),
-            ),
-
-            ElevatedButton(
-              onPressed: () {
-                if (cityController.text.isNotEmpty) {
-                  setState(() {
-                    parkingData[cityController.text] = [];
-                  });
-
-                  cityController.clear();
-
-                  Navigator.pop(context);
-                }
-              },
-
-              child: const Text("Add"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void addSlot() {
-    if (selectedCity == null) return;
-
-    showDialog(
-      context: context,
-
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Add Parking Slot"),
-
-          content: TextField(
-            controller: slotController,
-
-            decoration: const InputDecoration(hintText: "Enter Slot Name"),
-          ),
-
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-
-              child: const Text("Cancel"),
-            ),
-
-            ElevatedButton(
-              onPressed: () {
-                if (slotController.text.isNotEmpty) {
-                  setState(() {
-                    parkingData[selectedCity]!.add({
-                      "slot": slotController.text,
-                      "available": true,
-                    });
-                  });
-
-                  slotController.clear();
-
-                  Navigator.pop(context);
-                }
-              },
-
-              child: const Text("Add Slot"),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +88,6 @@ class _ParkingScreenState extends State<ParkingScreen> {
 
               decoration: BoxDecoration(
                 color: Colors.blue,
-
                 borderRadius: BorderRadius.circular(12),
               ),
 
@@ -196,6 +97,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
                 children: [
                   const Text(
                     "Smart Parking System",
+
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -203,13 +105,23 @@ class _ParkingScreenState extends State<ParkingScreen> {
                     ),
                   ),
 
-                  IconButton(
-                    onPressed: addCity,
+                  // ONLY PLUS BUTTON
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
 
-          icon: const Icon(
-                      Icons.add_circle,
-                      color: Colors.white,
-                      size: 35,
+                    child: IconButton(
+                      onPressed: () {
+                        // Add new page later
+                      },
+
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 30,
+                      ),
                     ),
                   ),
                 ],
@@ -229,39 +141,46 @@ class _ParkingScreenState extends State<ParkingScreen> {
               items: parkingData.keys.map((city) {
                 return DropdownMenuItem(value: city, child: Text(city));
               }).toList(),
-             onChanged: (value) {
+
+              onChanged: (value) {
                 setState(() {
                   selectedCity = value;
                 });
               },
             ),
-const SizedBox(height: 20),
+
+            const SizedBox(height: 20),
 
             // Center Total Slots
-if (selectedCity != null)
-  Center(
-      child: Column(
-          children: [
-          Text(
-          "Total Slots",
-            style: TextStyle(
-            fontSize: 18,
-            color: Colors.grey.shade700,
-            ),
-               ),
-const SizedBox(height: 5),
-      Text(
-          "${selectedSlots.length}",
-          style: const TextStyle(
-          fontSize: 35,
-          fontWeight: FontWeight.bold,
-          color: Colors.blue,
-          ),
-        ),
-      ],
-     ),
-    ),
- const SizedBox(height: 15),
+            if (selectedCity != null)
+              Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "Total Slots",
+
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+
+                    const SizedBox(height: 5),
+
+                    Text(
+                      "${selectedSlots.length}",
+
+                      style: const TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            const SizedBox(height: 15),
 
             // Slot List
             Expanded(
@@ -322,7 +241,6 @@ const SizedBox(height: 5),
 
                       decoration: BoxDecoration(
                         color: Colors.green.shade100,
-
                         borderRadius: BorderRadius.circular(12),
                       ),
 
@@ -330,6 +248,7 @@ const SizedBox(height: 5),
                         children: [
                           const Text(
                             "Available",
+
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -341,6 +260,7 @@ const SizedBox(height: 5),
 
                           Text(
                             "$availableCount",
+
                             style: const TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
@@ -359,7 +279,6 @@ const SizedBox(height: 5),
 
                       decoration: BoxDecoration(
                         color: Colors.red.shade100,
-
                         borderRadius: BorderRadius.circular(12),
                       ),
 
@@ -367,6 +286,7 @@ const SizedBox(height: 5),
                         children: [
                           const Text(
                             "Reserved",
+
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -378,6 +298,7 @@ const SizedBox(height: 5),
 
                           Text(
                             "$reservedCount",
+
                             style: const TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
