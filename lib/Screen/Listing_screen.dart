@@ -31,7 +31,6 @@ class _ParkingScreenState extends State<ParkingScreen> {
       {"slot": "A5", "available": true},
       {"slot": "A6", "available": true},
     ],
-
     "Ahmedabad": [
 
       {"slot": "B1", "available": true},
@@ -41,7 +40,6 @@ class _ParkingScreenState extends State<ParkingScreen> {
       {"slot": "B5", "available": false},
       {"slot": "B6", "available": true},
     ],
-
     "Surat": [
 
       {"slot": "C1", "available": false},
@@ -121,11 +119,9 @@ if (selectedCity != null) {
       body: Padding(
 
         padding: const EdgeInsets.all(15),
-
         child: Column(
 
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
 
             DropdownButton<String>(
@@ -321,7 +317,6 @@ if (selectedCity != null) {
                           const Text(
 
                             "Available",
-
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -331,7 +326,6 @@ if (selectedCity != null) {
                           Text(
 
                             "$availableCount",
-
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -348,7 +342,6 @@ if (selectedCity != null) {
                           const Text(
 
                             "Reserved",
-
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -358,7 +351,6 @@ if (selectedCity != null) {
                           Text(
 
                             "$reservedCount",
-
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
