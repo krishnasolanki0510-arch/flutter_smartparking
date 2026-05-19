@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const Myapp());
+  runApp(const MyApp());
 }
 
-class Myapp extends StatelessWidget {
-  const Myapp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const Parkingscreen(),
+      title: 'Smart Parking',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const ParkingScreen(),
     );
   }
 }
 
-class Parkingscreen extends StatefulWidget {
-  const Parkingscreen({super.key});
+class ParkingScreen extends StatefulWidget {
+  const ParkingScreen({super.key});
 
   @override
-  State<Parkingscreen> createState() => _ParkingScreenState();
+  State<ParkingScreen> createState() => _ParkingScreenState();
 }
 
-class _ParkingScreenState extends State<Parkingscreen> {
+class _ParkingScreenState extends State<ParkingScreen> {
   Map<String, List<Map<String, dynamic>>> parkingData = {
     "Vadodara": [
       {"slot": "A1", "available": true},
@@ -33,7 +35,6 @@ class _ParkingScreenState extends State<Parkingscreen> {
       {"slot": "A5", "available": true},
       {"slot": "A6", "available": true},
     ],
-
     "Ahmedabad": [
       {"slot": "B1", "available": true},
       {"slot": "B2", "available": true},
@@ -42,7 +43,6 @@ class _ParkingScreenState extends State<Parkingscreen> {
       {"slot": "B5", "available": false},
       {"slot": "B6", "available": true},
     ],
-
     "Surat": [
       {"slot": "C1", "available": false},
       {"slot": "C2", "available": true},
@@ -57,262 +57,204 @@ class _ParkingScreenState extends State<Parkingscreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Selected Slots
     List<Map<String, dynamic>> selectedSlots = selectedCity != null
         ? parkingData[selectedCity]!
         : [];
 
-    // Available Count
     int availableCount = selectedSlots
         .where((slot) => slot["available"] == true)
         .length;
 
-    // Reserved Count
     int reservedCount = selectedSlots
         .where((slot) => slot["available"] == false)
         .length;
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Smart Parking System"),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () {}, // Visible but non-functional
+            icon: const Icon(Icons.location_city),
+            tooltip: "Add City",
+          ),
+          IconButton(
+            onPressed: () {}, // Visible but non-functional
+            icon: const Icon(Icons.add_box),
+            tooltip: "Add Slot",
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(15),
-
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
-            const SizedBox(height: 40),
-
-            // Custom AppBar Design
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(12),
-              ),
-
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                children: [
-                  const Text(
-                    "Smart Parking System",
-
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-
-                  // ONLY PLUS BUTTON
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-
-                    child: IconButton(
-                      onPressed: () {
-                        // Add new page later
-                      },
-
-                      icon: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Dropdown
             DropdownButton<String>(
               value: selectedCity,
-
               hint: const Text("Choose City"),
-
               isExpanded: true,
-
               items: parkingData.keys.map((city) {
                 return DropdownMenuItem(value: city, child: Text(city));
               }).toList(),
-
               onChanged: (value) {
                 setState(() {
                   selectedCity = value;
                 });
               },
             ),
-
             const SizedBox(height: 20),
-
-            // Center Total Slots
-            if (selectedCity != null)
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      "Total Slots",
-
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey.shade700,
+            if (selectedCity != null) ...[
+              // 1. Total Slots layout at the top (BEFORE the slots list)
+              Card(
+                color: Colors.blue.shade50,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          const Text(
+                            "Total Slots",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            "${selectedSlots.length}",
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-
-                    const SizedBox(height: 5),
-
-                    Text(
-                      "${selectedSlots.length}",
-
-                      style: const TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
+              const SizedBox(height: 15),
 
-            const SizedBox(height: 15),
+              // 2. The Slots List
+              Expanded(
+                child: ListView.builder(
+                  itemCount: selectedSlots.length,
+                  itemBuilder: (context, index) {
+                    var slot = selectedSlots[index];
+                    bool isReserved = !slot["available"];
 
-            // Slot List
-            Expanded(
-              child: ListView.builder(
-                itemCount: selectedSlots.length,
-
-                itemBuilder: (context, index) {
-                  var slot = selectedSlots[index];
-
-                  return Card(
-                    elevation: 3,
-
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-
-                    child: CheckboxListTile(
-                      // true = reserved
-                      value: !slot["available"],
-
-                      onChanged: (value) {
-                        setState(() {
-                          slot["available"] = !value!;
-                        });
-                      },
-
-                      title: Text(
-                        "Parking Slot ${slot["slot"]}",
-
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-
-                      subtitle: Text(
-                        slot["available"] ? "Available" : "Reserved",
-                      ),
-
-                      activeColor: Colors.red,
-
-                      tileColor: slot["available"]
-                          ? Colors.green.shade100
-                          : Colors.red.shade100,
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            // Bottom Counts
-            if (selectedCity != null)
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-
-                  children: [
-                    // Available Box
-                    Container(
-                      padding: const EdgeInsets.all(15),
-
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade100,
+                    return Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      child: ListTile(
+                        tileColor: slot["available"]
+                            ? Colors.green.shade50
+                            : Colors.red.shade50,
+                        leading: Checkbox(
+                          value: isReserved,
+                          activeColor: Colors.red,
+                          // If already reserved, onChanged is set to null to make it unchangeable
+                          onChanged: isReserved
+                              ? null
+                              : (value) {
+                                  setState(() {
+                                    slot["available"] = !value!;
+                                  });
+                                },
+                        ),
+                        title: Text(
+                          "Parking Slot ${slot["slot"]}",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          slot["available"] ? "Available" : "Already Reserved",
+                          style: TextStyle(
+                            color: slot["available"]
+                                ? Colors.green.shade700
+                                : Colors.red.shade700,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedSlots.removeAt(index);
+                            });
+                          },
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 15),
 
-                      child: Column(
+              // 3. Available and Reserved counters summary at the bottom (AFTER the slots list)
+              Card(
+                color: Colors.grey.shade100,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
                         children: [
                           const Text(
                             "Available",
-
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-
-                          const SizedBox(height: 5),
-
                           Text(
                             "$availableCount",
-
                             style: const TextStyle(
-                              fontSize: 28,
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Colors.green,
                             ),
                           ),
                         ],
                       ),
-                    ),
-
-                    const SizedBox(width: 20),
-
-                    // Reserved Box
-                    Container(
-                      padding: const EdgeInsets.all(15),
-
-                      decoration: BoxDecoration(
-                        color: Colors.red.shade100,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-
-                      child: Column(
+                      Column(
                         children: [
                           const Text(
                             "Reserved",
-
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-
-                          const SizedBox(height: 5),
-
                           Text(
                             "$reservedCount",
-
                             style: const TextStyle(
-                              fontSize: 28,
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Colors.red,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-
-            const SizedBox(height: 10),
+            ] else
+              const Expanded(
+                child: Center(
+                  child: Text(
+                    "Please choose a city to see parking spaces.",
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
