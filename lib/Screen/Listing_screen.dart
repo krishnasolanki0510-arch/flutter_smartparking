@@ -1,55 +1,54 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const Myapp());
-}
-
-class Myapp extends StatelessWidget {
-  const Myapp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const Parkingscreen(),
-    );
-  }
-}
-
 class Parkingscreen extends StatefulWidget {
-  const Parkingscreen({super.key});
+
+  final List data;
+
+  final Function refreshList;
+
+  const Parkingscreen({
+    super.key, required this.data,required this.refreshList,
+  });
 
   @override
   State<Parkingscreen> createState() => _ParkingScreenState();
 }
 
 class _ParkingScreenState extends State<Parkingscreen> {
+
   Map<String, List<Map<String, dynamic>>> parkingData = {
+
     "Vadodara": [
+
       {"slot": "A1", "available": true},
       {"slot": "A2", "available": false},
       {"slot": "A3", "available": true},
       {"slot": "A4", "available": false},
       {"slot": "A5", "available": true},
       {"slot": "A6", "available": true},
+
     ],
 
     "Ahmedabad": [
+
       {"slot": "B1", "available": true},
       {"slot": "B2", "available": true},
       {"slot": "B3", "available": false},
       {"slot": "B4", "available": true},
       {"slot": "B5", "available": false},
       {"slot": "B6", "available": true},
+
     ],
 
     "Surat": [
+
       {"slot": "C1", "available": false},
       {"slot": "C2", "available": true},
       {"slot": "C3", "available": true},
       {"slot": "C4", "available": false},
       {"slot": "C5", "available": true},
       {"slot": "C6", "available": false},
+
     ],
   };
 
@@ -57,45 +56,55 @@ class _ParkingScreenState extends State<Parkingscreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Selected Slots
+
     List<Map<String, dynamic>> selectedSlots = selectedCity != null
         ? parkingData[selectedCity]!
         : [];
 
-    // Available Count
     int availableCount = selectedSlots
         .where((slot) => slot["available"] == true)
         .length;
 
-    // Reserved Count
     int reservedCount = selectedSlots
         .where((slot) => slot["available"] == false)
         .length;
 
     return Scaffold(
+
       body: Padding(
+
         padding: const EdgeInsets.all(15),
 
         child: Column(
+
           crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
+
             const SizedBox(height: 40),
 
-            // Custom AppBar Design
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 15,
+              ),
 
               decoration: BoxDecoration(
+
                 color: Colors.blue,
+
                 borderRadius: BorderRadius.circular(12),
               ),
 
               child: Row(
+
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                 children: [
+
                   const Text(
+
                     "Smart Parking System",
 
                     style: TextStyle(
@@ -105,17 +114,18 @@ class _ParkingScreenState extends State<Parkingscreen> {
                     ),
                   ),
 
-                  // ONLY PLUS BUTTON
                   Container(
+
                     decoration: BoxDecoration(
+
                       color: Colors.white.withOpacity(0.2),
+
                       borderRadius: BorderRadius.circular(12),
                     ),
 
                     child: IconButton(
-                      onPressed: () {
-                        // Add new page later
-                      },
+
+                      onPressed: () {},
 
                       icon: const Icon(
                         Icons.add,
@@ -130,8 +140,8 @@ class _ParkingScreenState extends State<Parkingscreen> {
 
             const SizedBox(height: 20),
 
-            // Dropdown
             DropdownButton<String>(
+
               value: selectedCity,
 
               hint: const Text("Choose City"),
@@ -139,24 +149,36 @@ class _ParkingScreenState extends State<Parkingscreen> {
               isExpanded: true,
 
               items: parkingData.keys.map((city) {
-                return DropdownMenuItem(value: city, child: Text(city));
+
+                return DropdownMenuItem(
+                  value: city,
+                  child: Text(city),
+                );
+
               }).toList(),
 
               onChanged: (value) {
+
                 setState(() {
+
                   selectedCity = value;
+
                 });
               },
             ),
 
             const SizedBox(height: 20),
 
-            // Center Total Slots
             if (selectedCity != null)
+
               Center(
+
                 child: Column(
+
                   children: [
+
                     Text(
+
                       "Total Slots",
 
                       style: TextStyle(
@@ -168,6 +190,7 @@ class _ParkingScreenState extends State<Parkingscreen> {
                     const SizedBox(height: 5),
 
                     Text(
+
                       "${selectedSlots.length}",
 
                       style: const TextStyle(
@@ -182,39 +205,54 @@ class _ParkingScreenState extends State<Parkingscreen> {
 
             const SizedBox(height: 15),
 
-            // Slot List
             Expanded(
+
               child: ListView.builder(
+
                 itemCount: selectedSlots.length,
 
                 itemBuilder: (context, index) {
+
                   var slot = selectedSlots[index];
 
                   return Card(
+
                     elevation: 3,
 
                     shape: RoundedRectangleBorder(
+
                       borderRadius: BorderRadius.circular(12),
                     ),
 
                     child: CheckboxListTile(
-                      // true = reserved
+
                       value: !slot["available"],
 
-                      onChanged: (value) {
-                        setState(() {
-                          slot["available"] = !value!;
-                        });
-                      },
+                      onChanged: slot["available"] == false
+                          ? null
+                          : (value) {
+
+                              setState(() {
+
+                                slot["available"] = !value!;
+
+                              });
+                            },
 
                       title: Text(
+
                         "Parking Slot ${slot["slot"]}",
 
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
 
                       subtitle: Text(
-                        slot["available"] ? "Available" : "Reserved",
+
+                        slot["available"]
+                            ? "Available"
+                            : "Already Reserved",
                       ),
 
                       activeColor: Colors.red,
@@ -228,25 +266,33 @@ class _ParkingScreenState extends State<Parkingscreen> {
               ),
             ),
 
-            // Bottom Counts
             if (selectedCity != null)
+
               Center(
+
                 child: Row(
+
                   mainAxisAlignment: MainAxisAlignment.center,
 
                   children: [
-                    // Available Box
+
                     Container(
+
                       padding: const EdgeInsets.all(15),
 
                       decoration: BoxDecoration(
+
                         color: Colors.green.shade100,
+
                         borderRadius: BorderRadius.circular(12),
                       ),
 
                       child: Column(
+
                         children: [
+
                           const Text(
+
                             "Available",
 
                             style: TextStyle(
@@ -259,6 +305,7 @@ class _ParkingScreenState extends State<Parkingscreen> {
                           const SizedBox(height: 5),
 
                           Text(
+
                             "$availableCount",
 
                             style: const TextStyle(
@@ -273,18 +320,23 @@ class _ParkingScreenState extends State<Parkingscreen> {
 
                     const SizedBox(width: 20),
 
-                    // Reserved Box
                     Container(
+
                       padding: const EdgeInsets.all(15),
 
                       decoration: BoxDecoration(
+
                         color: Colors.red.shade100,
+
                         borderRadius: BorderRadius.circular(12),
                       ),
 
                       child: Column(
+
                         children: [
+
                           const Text(
+
                             "Reserved",
 
                             style: TextStyle(
@@ -297,6 +349,7 @@ class _ParkingScreenState extends State<Parkingscreen> {
                           const SizedBox(height: 5),
 
                           Text(
+
                             "$reservedCount",
 
                             style: const TextStyle(
