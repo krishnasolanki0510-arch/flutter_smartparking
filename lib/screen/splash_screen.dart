@@ -13,23 +13,18 @@ class SplashScreen extends StatelessWidget {
     gradient: LinearGradient(
 
       colors: [Colors.blue,Colors.purple,],
-
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     ),
   ),
-
       child:Column(children: [Row(
               mainAxisAlignment: MainAxisAlignment.end,
 
               children: [
 
-                Text(
-                  "v1.0",
-
-                  style: TextStyle(color: Colors.white,fontSize: 16,
-                  ),
-                ),
+              Text("v1.0",style: TextStyle(color: Colors.white,fontSize: 16,
+              ),
+              ),
 
               ],
             
@@ -43,13 +38,10 @@ class SplashScreen extends StatelessWidget {
 
           SizedBox(height: 20),
 
-          Text(
-            "AutoSlot",
-
-            style: TextStyle(fontSize: 40,
-                             fontWeight: FontWeight.w800,
-                              letterSpacing: 2,
-                             color: Colors.white,
+          Text("AutoSlot", style: TextStyle(fontSize: 40,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 2,
+                            color: Colors.white,
                             fontStyle: FontStyle.italic,
             ),
           ),
@@ -60,12 +52,7 @@ class SplashScreen extends StatelessWidget {
 
         SizedBox(height: 20),
 
-        Text(
-            "Your Parking Solution",
-
-            style: TextStyle(fontSize: 18,color: Colors.white70,
-        ),
-      ),
+        Text("Your Parking Solution",style: TextStyle(fontSize: 18,color: Colors.white70,), ),
 
     ],
       ),
