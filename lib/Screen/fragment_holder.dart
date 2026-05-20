@@ -12,82 +12,146 @@ class FragmentHolder extends StatefulWidget {
 
 class _FragmentHolderState extends State<FragmentHolder> {
 
+  // PARKING DATA
   Map<String, List<Map<String, dynamic>>> data = {};
 
-  void refreshList(dynamic value) async {
+  List<Map<String, dynamic>> studentData = [ //parent data to child
+{
+      "age": 19,
+    },
+  ];
 
-    // Add City Screen
-    if (value == "/s1") {
+  String currentScreen = "/home";
+  Widget getScreen() {
 
-      final result = await Navigator.push(
+    switch (currentScreen) {
 
-        context,
-
-        MaterialPageRoute(
-
-          builder: (context) => const AddCityScreen(),
-        ),
-      );
-
-      if (result != null) {
-
-        setState(() {
-
-          data[result] = [];
-
-        });
-      }
-    }
-
-    // Add Slot Screen
-    else if (value == "/s2") {
-
-      final result = await Navigator.push(
-
-        context,
-
-        MaterialPageRoute(
-
-          builder: (context) => AddSlotScreen(
-            cities: data.keys.toList(),
-          ),
-        ),
-      );
-
-      if (result != null) {
-
-        String city = result["city"];
-
-        List<String> slots = List<String>.from(result["slots"]);
-
-        setState(() {
-
-          if (!data.containsKey(city)) {
-
-            data[city] = [];
-          }
-
-          for (var slot in slots) {
-
-            data[city]!.add({
-
-              "slot": slot,
-              "available": true,
+      // ADD CITY SCREEN
+      case "/s1":
+      return AddCityScreen(
+        onSave: (cityName) {
+            setState(() {
+            if (cityName.isNotEmpty) {
+              data[cityName] = [];
+              }
+              currentScreen = "/home";
             });
-          }
-        });
-      }
+          },
+        );
+
+      // ADD SLOT SCREEN
+      case "/s2":
+       return AddSlotScreen(
+
+          cities: data.keys.toList(),
+          onSave: (result) {
+            String city = result["city"];
+
+            List<String> newSlots =
+                List<String>.from(result["slots"]);
+
+            setState(() {
+
+              if (!data.containsKey(city)) {
+
+                data[city] = [];
+              }
+
+              for (var slot in newSlots) {
+
+                data[city]!.add({
+
+                  "slot": slot,
+
+                  "available": true,
+                });
+              }
+
+              currentScreen = "/home";
+            });
+          },
+        );
+
+      // HOME SCREEN
+      default:
+
+        return ParkingScreen(
+          data: data,
+          studentData: studentData,
+          refreshList: (route) {
+
+            setState(() {
+
+              currentScreen = route;
+            });
+          },
+        );
     }
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return ParkingScreen(
+    return Scaffold(
 
-      data: data,
+      appBar: AppBar(
 
-      refreshList: refreshList,
+        title: const Text("AutoSlot"),
+
+        backgroundColor: Colors.blue,
+
+        foregroundColor: Colors.white,
+
+        centerTitle: true,
+
+        leading: currentScreen != "/home"
+
+            ? IconButton(
+
+                onPressed: () {
+
+                  setState(() {
+
+                    currentScreen = "/home";
+                  });
+                },
+
+                icon: const Icon(Icons.arrow_back),
+              )
+
+            : null,
+
+        actions: [
+
+          IconButton(
+
+            onPressed: () {
+
+              setState(() {
+
+                currentScreen = "/s1";
+              });
+            },
+
+            icon: const Icon(Icons.location_city),
+          ),
+
+          IconButton(
+
+            onPressed: () {
+
+              setState(() {
+
+                currentScreen = "/s2";
+              });
+            },
+
+            icon: const Icon(Icons.add_box),
+          ),
+        ],
+      ),
+
+      body: getScreen(),
     );
   }
 }
