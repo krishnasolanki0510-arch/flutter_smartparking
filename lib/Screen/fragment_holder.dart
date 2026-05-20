@@ -1,157 +1,157 @@
-import 'package:flutter/material.dart';
-import 'Listing_screen.dart';
-import 'addcity_screen.dart';
-import 'addslot_scrren.dart';
+// import 'package:flutter/material.dart';
+// import 'Listing_screen.dart';
+// import 'addcity_screen.dart';
+// import 'addslot_scrren.dart';
 
-class FragmentHolder extends StatefulWidget {
-  const FragmentHolder({super.key});
+// class FragmentHolder extends StatefulWidget {
+//   const FragmentHolder({super.key});
 
-  @override
-  State<FragmentHolder> createState() => _FragmentHolderState();
-}
+//   @override
+//   State<FragmentHolder> createState() => _FragmentHolderState();
+// }
 
-class _FragmentHolderState extends State<FragmentHolder> {
+// class _FragmentHolderState extends State<FragmentHolder> {
 
-  // PARKING DATA
-  Map<String, List<Map<String, dynamic>>> data = {};
+//   // PARKING DATA
+//   Map<String, List<Map<String, dynamic>>> data = {};
 
-  List<Map<String, dynamic>> studentData = [ //parent data to child
-{
-      "age": 19,
-    },
-  ];
+//   List<Map<String, dynamic>> studentData = [ //parent data to child
+// {
+//       "age": 19,
+//     },
+//   ];
 
-  String currentScreen = "/home";
-  Widget getScreen() {
+//   String currentScreen = "/home";
+//   Widget getScreen() {
 
-    switch (currentScreen) {
+//     switch (currentScreen) {
 
-      // ADD CITY SCREEN
-      case "/s1":
-      return AddCityScreen(
-        onSave: (cityName) {
-            setState(() {
-            if (cityName.isNotEmpty) {
-              data[cityName] = [];
-              }
-              currentScreen = "/home";
-            });
-          },
-        );
+//       // ADD CITY SCREEN
+//       case "/s1":
+//       return AddCityScreen(
+//         onSave: (cityName) {
+//             setState(() {
+//             if (cityName.isNotEmpty) {
+//               data[cityName] = [];
+//               }
+//               currentScreen = "/home";
+//             });
+//           },
+//         );
 
-      // ADD SLOT SCREEN
-      case "/s2":
-       return AddSlotScreen(
+//       // ADD SLOT SCREEN
+//       case "/s2":
+//        return AddSlotScreen(
 
-          cities: data.keys.toList(),
-          onSave: (result) {
-            String city = result["city"];
+//           cities: data.keys.toList(),
+//           onSave: (result) {
+//             String city = result["city"];
 
-            List<String> newSlots =
-                List<String>.from(result["slots"]);
+//             List<String> newSlots =
+//                 List<String>.from(result["slots"]);
 
-            setState(() {
+//             setState(() {
 
-              if (!data.containsKey(city)) {
+//               if (!data.containsKey(city)) {
 
-                data[city] = [];
-              }
+//                 data[city] = [];
+//               }
 
-              for (var slot in newSlots) {
+//               for (var slot in newSlots) {
 
-                data[city]!.add({
+//                 data[city]!.add({
 
-                  "slot": slot,
+//                   "slot": slot,
 
-                  "available": true,
-                });
-              }
+//                   "available": true,
+//                 });
+//               }
 
-              currentScreen = "/home";
-            });
-          },
-        );
+//               currentScreen = "/home";
+//             });
+//           },
+//         );
 
-      // HOME SCREEN
-      default:
+//       // HOME SCREEN
+//       default:
 
-        return ParkingScreen(
-          data: data,
-          studentData: studentData,
-          refreshList: (route) {
+//         return ParkingScreen(
+//           data: data,
+//           studentData: studentData,
+//           refreshList: (route) {
 
-            setState(() {
+//             setState(() {
 
-              currentScreen = route;
-            });
-          },
-        );
-    }
-  }
+//               currentScreen = route;
+//             });
+//           },
+//         );
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
+//   @override
+//   Widget build(BuildContext context) {
 
-    return Scaffold(
+//     return Scaffold(
 
-      appBar: AppBar(
+//       appBar: AppBar(
 
-        title: const Text("AutoSlot"),
+//         title: const Text("AutoSlot"),
 
-        backgroundColor: Colors.blue,
+//         backgroundColor: Colors.blue,
 
-        foregroundColor: Colors.white,
+//         foregroundColor: Colors.white,
 
-        centerTitle: true,
+//         centerTitle: true,
 
-        leading: currentScreen != "/home"
+//         leading: currentScreen != "/home"
 
-            ? IconButton(
+//             ? IconButton(
 
-                onPressed: () {
+//                 onPressed: () {
 
-                  setState(() {
+//                   setState(() {
 
-                    currentScreen = "/home";
-                  });
-                },
+//                     currentScreen = "/home";
+//                   });
+//                 },
 
-                icon: const Icon(Icons.arrow_back),
-              )
+//                 icon: const Icon(Icons.arrow_back),
+//               )
 
-            : null,
+//             : null,
 
-        actions: [
+//         actions: [
 
-          IconButton(
+//           IconButton(
 
-            onPressed: () {
+//             onPressed: () {
 
-              setState(() {
+//               setState(() {
 
-                currentScreen = "/s1";
-              });
-            },
+//                 currentScreen = "/s1";
+//               });
+//             },
 
-            icon: const Icon(Icons.location_city),
-          ),
+//             icon: const Icon(Icons.location_city),
+//           ),
 
-          IconButton(
+//           IconButton(
 
-            onPressed: () {
+//             onPressed: () {
 
-              setState(() {
+//               setState(() {
 
-                currentScreen = "/s2";
-              });
-            },
+//                 currentScreen = "/s2";
+//               });
+//             },
 
-            icon: const Icon(Icons.add_box),
-          ),
-        ],
-      ),
+//             icon: const Icon(Icons.add_box),
+//           ),
+//         ],
+//       ),
 
-      body: getScreen(),
-    );
-  }
-}
+//       body: getScreen(),
+//     );
+//   }
+// }
