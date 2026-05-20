@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screen/splash_screen.dart';
 import 'Screen/fregment.dart';
 
 void main() {
@@ -7,7 +8,7 @@ void main() {
 
     const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FragmentHolder(),
+      home:SplashScreen(),
     ),
   );
 }
