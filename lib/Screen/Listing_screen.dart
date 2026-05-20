@@ -25,7 +25,6 @@ class _ParkingScreenState extends State<ParkingScreen> {
       {"slot": "A5", "available": true},
       {"slot": "A6", "available": true},
     ],
-
     "Ahmedabad": [
 
       {"slot": "B1", "available": true},
@@ -35,7 +34,6 @@ class _ParkingScreenState extends State<ParkingScreen> {
       {"slot": "B5", "available": false},
       {"slot": "B6", "available": true},
     ],
-
     "Surat": [
       {"slot": "C1", "available": false},
       {"slot": "C2", "available": true},
