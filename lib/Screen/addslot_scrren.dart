@@ -47,8 +47,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
             isExpanded: true,
 
-            items: ["Vadodara", "Ahmedabad", "Surat", ...widget.cities]
-                .toSet()
+            items: {"Vadodara", "Ahmedabad", "Surat", ...widget.cities}
                 .map((city) {
                   return DropdownMenuItem<String>(
                     value: city,

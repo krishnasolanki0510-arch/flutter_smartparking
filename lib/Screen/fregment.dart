@@ -7,17 +7,15 @@ class FragmentHolder extends StatefulWidget {
   const FragmentHolder({super.key});
 
   @override
-  State<FragmentHolder> createState() => _FragmentHolderState();
-}
+  State<FragmentHolder> createState() => _FragmentHolderState();}
 
 class _FragmentHolderState extends State<FragmentHolder> {
 
-  // PARKING DATA
+  // Parking data
   Map<String, List<Map<String, dynamic>>> data = {};
 
-  // PARENT DATA
-  List<Map<String, dynamic>> studentData = [
-
+  // Parent data
+  final List<Map<String, dynamic>> studentData = [
     {
       "age": 19,
     },
@@ -25,57 +23,38 @@ class _FragmentHolderState extends State<FragmentHolder> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
-      appBar: AppBar(
-
-        title: const Text("AutoSlot"),
-
-        backgroundColor: Colors.blue,
-
-        foregroundColor: Colors.white,
-
-        centerTitle: true,
-
+      appBar:AppBar(
+        title:Text("AutoSlot"),
+        backgroundColor:Colors.blue,
+        foregroundColor:Colors.white,
+        centerTitle:true,
         actions: [
 
-          // ADD CITY BUTTON
-          IconButton(
-
-            onPressed: () {
-
+    IconButton(
+    onPressed:() {
               Navigator.push(
-
                 context,
-
                 MaterialPageRoute(
-
                   builder: (context) => Scaffold(
                     appBar: AppBar(
-
-                      title: const Text("AutoSlot"),
-
-                      backgroundColor: Colors.blue,
+                      title:Text("AutoSlot"),
+                     
+                    backgroundColor: Colors.blue,
 
                       foregroundColor: Colors.white,
-
                       centerTitle: true,
                     ),
 
                     body: Container(
-
                       padding: const EdgeInsets.all(10),
-
                       child: AddCityScreen(
-
+                        
                         onSave: (cityName) {
-
                           setState(() {
 
                             if (cityName.isNotEmpty) {
-
-                              data[cityName] = [];
+                            data[cityName] = [];
                             }
                           });
 
@@ -90,91 +69,57 @@ class _FragmentHolderState extends State<FragmentHolder> {
 
             icon: const Icon(Icons.location_city),
           ),
-
           // ADD SLOT BUTTON
           IconButton(
-
-            onPressed: () {
-
-              Navigator.push(
-
-                context,
-
-                MaterialPageRoute(
-
-                  builder: (context) => Scaffold(
-
-                    appBar: AppBar(
-
-                      title: const Text("AutoSlot"),
-
-                      backgroundColor: Colors.blue,
-
-                      foregroundColor: Colors.white,
-
-                      centerTitle: true,
-                    ),
-
-                    body: Container(
-
-                      padding: const EdgeInsets.all(10),
-
-                      child: AddSlotScreen(
-
-                        cities: data.keys.toList(),
-
-                        onSave: (result) {
-
-                          String city = result["city"];
-
-                          List<String> newSlots =
-                              List<String>.from(result["slots"]);
+          onPressed: () {Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Scaffold(
+                appBar: AppBar(
+                 title: const Text("AutoSlot"),
+                 backgroundColor: Colors.blue,
+                 foregroundColor: Colors.white,
+                 centerTitle: true,
+                ),
+                body: Container(
+                padding: EdgeInsets.all(10),
+                child: AddSlotScreen(
+                cities: data.keys.toList(),
+                onSave: (result) {
+                  String city = result["city"];
+                  List<String> newSlots =List<String>.from(result["slots"]);
 
                           setState(() {
-
                             if (!data.containsKey(city)) {
-
                               data[city] = [];
                             }
-
                             for (var slot in newSlots) {
-
                               data[city]!.add({
-
                                 "slot": slot,
-
                                 "available": true,
                               });
                             }
                           });
 
-                          Navigator.pop(context);
-                        },
-                      ),
+                   Navigator.pop(context);
+                    },
+                  ),
                     ),
                   ),
-                ),
+            ),
               );
             },
 
-            icon: const Icon(Icons.add_box),
+        icon: const Icon(Icons.add_box),
           ),
-        ],
+      ],
       ),
-
       body: Container(
-
-        padding: const EdgeInsets.all(10),
-
-        child: ParkingScreen(
-
-          data: data,
-
-          studentData: studentData,
-
-          refreshList: (route) {},
-        ),
+      padding: const EdgeInsets.all(10),
+      child: ParkingScreen(
+      data: data,studentData: studentData, refreshList: (route) {},
       ),
-    );
+      ),
+      );
   }
 }
