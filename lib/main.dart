@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'fragment_holder.dart';
+import 'package:flutter_application_1/splash_screen.dart';
+
 
 void main() {
   runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-
-      home: const FragmentHolder(),
-    ),
+    const MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen()),
   );
 }

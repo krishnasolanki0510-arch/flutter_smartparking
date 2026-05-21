@@ -15,32 +15,25 @@ class _AddCityScreenState extends State<AddCityScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: EdgeInsets.all(15),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
-          const Text(
+          Text(
             "Add New City",
-
             style: TextStyle(
               fontSize: 20,
-
               fontWeight: FontWeight.bold,
-
               color: Colors.blue,
             ),
           ),
 
-          const SizedBox(height: 20),
-
+          SizedBox(height: 20),
           TextField(
             controller: cityController,
-
             decoration: InputDecoration(
               hintText: "Enter City Name",
-
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -51,7 +44,6 @@ class _AddCityScreenState extends State<AddCityScreen> {
 
           SizedBox(
             width: double.infinity,
-
             child: ElevatedButton(
               onPressed: () {
                 widget.onSave(cityController.text);
