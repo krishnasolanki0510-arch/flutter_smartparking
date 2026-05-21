@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'addcity_screen.dart';
+import 'addslot_scrren.dart';
 
 class ParkingScreen extends StatefulWidget {
   final Map data;
@@ -17,8 +19,11 @@ class ParkingScreen extends StatefulWidget {
 }
 
 class _ParkingScreenState extends State<ParkingScreen> {
+
   Map<String, List<Map<String, dynamic>>> parkingData = {
+
     "Vadodara": [
+
       {"slot": "A1", "available": true},
       {"slot": "A2", "available": false},
       {"slot": "A3", "available": true},
@@ -30,6 +35,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
     ],
 
     "Ahmedabad": [
+
       {"slot": "B1", "available": true},
       {"slot": "B2", "available": true},
       {"slot": "B3", "available": false},
@@ -41,6 +47,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
     ],
 
     "Surat": [
+
       {"slot": "C1", "available": false},
       {"slot": "C2", "available": true},
       {"slot": "C3", "available": true},
