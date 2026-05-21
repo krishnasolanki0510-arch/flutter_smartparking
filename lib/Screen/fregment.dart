@@ -14,18 +14,102 @@ class FragmentHolder extends StatefulWidget {
 class _FragmentHolderState extends State<FragmentHolder> {
 
   // Parking data
-  Map<String, List<Map<String, dynamic>>> data = {};
-  Future<void> saveList() async{
-    try{
-      final SharedPreferences prefs=await SharedPreferences.getInstance();
-       String jsonString =jsonEncode(data);
-       await prefs.setString("parkingdata",jsonString,);
-    }
-    catch(e){
+  Map<String, List<Map<String, dynamic>>> data = {"Vadodara": [
 
-    }
-   
+      {"slot": "A1", "available": true},
+      {"slot": "A2", "available": false},
+      {"slot": "A3", "available": true},
+      {"slot": "A4", "available": false},
+      {"slot": "A5", "available": true},
+      {"slot": "A6", "available": true},
+      {"slot": "A7", "available": true},
+      {"slot": "A8", "available": false},
+    ],
+
+    "Ahmedabad": [
+
+      {"slot": "B1", "available": true},
+      {"slot": "B2", "available": true},
+      {"slot": "B3", "available": false},
+      {"slot": "B4", "available": true},
+      {"slot": "B5", "available": false},
+      {"slot": "B6", "available": true},
+      {"slot": "B7", "available": false},
+      {"slot": "B8", "available": true},
+    ],
+
+    "Surat": [
+      {"slot": "C1", "available": false},
+      {"slot": "C2", "available": true},
+      {"slot": "C3", "available": true},
+      {"slot": "C4", "available": false},
+      {"slot": "C5", "available": true},
+      {"slot": "C6", "available": false},
+      {"slot": "B6", "available": true},
+      {"slot": "B6", "available": false},
+    ],};
+  @override
+  void initState() {
+    super.initState();
+    prepareList();
   }
+ Future<void> saveList() async {
+
+  try {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> finalData = {
+      "newData": data,
+    };
+    String jsonString = jsonEncode(finalData);
+    await prefs.setString("parkingdata",jsonString, );
+  }
+  catch(e) {
+
+  }
+}
+   
+
+  Future<void> prepareList() async {
+
+  try {
+
+    final SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+
+    String? jsonString =
+        prefs.getString("parkingdata");
+
+    if (jsonString != null) {
+
+      Map<String, dynamic> decodedData =
+          jsonDecode(jsonString);
+
+      Map<String, List<Map<String, dynamic>>> loadedData =
+          fromJson(
+            decodedData["newData"] ?? {},
+          );
+
+      // REPLACE OLD DATA
+      data = loadedData;
+
+      setState(() {});
+    }
+  }
+
+  catch(e) {
+
+    print(e);
+
+  }
+}
+  Map<String, List<Map<String, dynamic>>>fromJson( Map<String, dynamic> json, ) {
+ return json.map(
+      (key, value) => MapEntry(
+        key, List<Map<String, dynamic>>.from(value),
+    ),
+    );
+  }
+
   // Parent data
   
   @override
@@ -118,7 +202,7 @@ class _FragmentHolderState extends State<FragmentHolder> {
       body: Container(
       padding: const EdgeInsets.all(10),
       child: ParkingScreen(
-      data: data,refreshList: (route) {
+      data: data,refreshList: () {
         saveList();
       },
       ),
