@@ -20,26 +20,19 @@ class _AddCityScreenState extends State<AddCityScreen> {
       child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            "Add New City",
-
+        Text("Add New City",
             style: TextStyle(
               fontSize: 20,
-
               fontWeight: FontWeight.bold,
-
               color: Colors.blue,
             ),
           ),
 
         SizedBox(height: 20),
-
           TextField(
             controller: cityController,
-
             decoration: InputDecoration(
               hintText: "Enter City Name",
-
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

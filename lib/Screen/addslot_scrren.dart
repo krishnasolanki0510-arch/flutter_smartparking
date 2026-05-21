@@ -21,16 +21,12 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
     return Padding(
       padding: const EdgeInsets.all(15),
 
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-
+      child: Column( crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             "Add New Slots",
-
             style: TextStyle(
               fontSize: 20,
-
               fontWeight: FontWeight.bold,
 
               color: Colors.blue,
@@ -40,13 +36,9 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
           const SizedBox(height: 20),
 
           // CITY DROPDOWN
-          DropdownButton<String>(
-            value: selectedCity,
-
+          DropdownButton<String>(value: selectedCity,
             hint:Text("Choose City"),
-
             isExpanded: true,
-
             items: {"Vadodara", "Ahmedabad", "Surat", ...widget.cities}
                 .map((city) {
                   return DropdownMenuItem<String>(
@@ -54,9 +46,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
                     child: Text(city),
                   );
-                })
-                .toList(),
-
+                }).toList(),
             onChanged: (value) {
               setState(() {
                 selectedCity = value;
@@ -65,8 +55,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
           ),
 
           const SizedBox(height: 20),
-
-          // TEXTFIELD + ADD BUTTON
+          // Textfeald+button
           Row(
             children: [
               Expanded(
@@ -82,9 +71,7 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(width: 10),
-
               ElevatedButton(
                 onPressed: () {
                   if (selectedCity == null) {
@@ -96,7 +83,6 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
                     return;
                   }
-
                   if (slotController.text.isNotEmpty) {
                     setState(() {
                       slots.add(slotController.text);
@@ -110,15 +96,13 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
               ),
             ],
           ),
-
           const SizedBox(height: 20),
 
           // SLOT LIST
           Expanded(
             child: ListView.builder(
               itemCount: slots.length,
-
-              itemBuilder: (context, index) {
+            itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
                     title: Text(slots[index]),
@@ -129,7 +113,6 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
                           slots.removeAt(index);
                         });
                       },
-
                       icon: const Icon(Icons.delete, color: Colors.red),
                     ),
                   ),
@@ -141,7 +124,6 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
           // SAVE BUTTON
           SizedBox(
             width: double.infinity,
-
             child: ElevatedButton(
               onPressed: () {
                 if (selectedCity == null || slots.isEmpty) {
@@ -153,7 +135,6 @@ class _AddSlotScreenState extends State<AddSlotScreen> {
 
                   return;
                 }
-
                 widget.onSave({"city": selectedCity, "slots": slots});
               },
 

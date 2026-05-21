@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Listing_screen.dart';
 import 'addcity_screen.dart';
 import 'addslot_scrren.dart';
+import 'dart:convert';
 
 class FragmentHolder extends StatefulWidget {
   const FragmentHolder({super.key});
@@ -13,14 +15,19 @@ class _FragmentHolderState extends State<FragmentHolder> {
 
   // Parking data
   Map<String, List<Map<String, dynamic>>> data = {};
+  Future<void> saveList() async{
+    try{
+      final SharedPreferences prefs=await SharedPreferences.getInstance();
+       String jsonString =jsonEncode(data);
+       await prefs.setString("parkingdata",jsonString,);
+    }
+    catch(e){
 
+    }
+   
+  }
   // Parent data
-  final List<Map<String, dynamic>> studentData = [
-    {
-      "age": 19,
-    },
-  ];
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,23 +48,18 @@ class _FragmentHolderState extends State<FragmentHolder> {
                       title:Text("AutoSlot"),
                      
                     backgroundColor: Colors.blue,
-
                       foregroundColor: Colors.white,
                       centerTitle: true,
                     ),
-
                     body: Container(
                       padding: const EdgeInsets.all(10),
                       child: AddCityScreen(
-                        
                         onSave: (cityName) {
                           setState(() {
-
                             if (cityName.isNotEmpty) {
                             data[cityName] = [];
                             }
-                          });
-
+                          });saveList();
                           Navigator.pop(context);
                         },
                       ),
@@ -71,8 +73,7 @@ class _FragmentHolderState extends State<FragmentHolder> {
           ),
           // ADD SLOT BUTTON
           IconButton(
-          onPressed: () {Navigator.push(
-            context,
+          onPressed: () {Navigator.push( context,
             MaterialPageRoute(
                 builder: (context) => Scaffold(
                 appBar: AppBar(
@@ -99,7 +100,7 @@ class _FragmentHolderState extends State<FragmentHolder> {
                                 "available": true,
                               });
                             }
-                          });
+                          });saveList();
 
                    Navigator.pop(context);
                     },
@@ -117,7 +118,9 @@ class _FragmentHolderState extends State<FragmentHolder> {
       body: Container(
       padding: const EdgeInsets.all(10),
       child: ParkingScreen(
-      data: data,studentData: studentData, refreshList: (route) {},
+      data: data,refreshList: (route) {
+        saveList();
+      },
       ),
       ),
       );

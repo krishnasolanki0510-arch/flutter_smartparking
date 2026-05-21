@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class ParkingScreen extends StatefulWidget {
   final Map data;
-  final List<Map<String, dynamic>> studentData;
   final Function refreshList;
 
-  const ParkingScreen({super.key,required this.data,required this.studentData,required this.refreshList,});
+  const ParkingScreen({super.key,required this.data,required this.refreshList,});
 
   @override
   State<ParkingScreen> createState() => _ParkingScreenState();
@@ -113,9 +112,6 @@ class _ParkingScreenState extends State<ParkingScreen> {
           ),
 
         SizedBox(height: 20),
-Text(
-  "Age: ${widget.studentData[0]["age"]}",
-),
 
         SizedBox(height: 20),
 
@@ -245,7 +241,9 @@ Text(
                               (item) => item["slot"] == slotName,
                             );
                           });
+                           widget.refreshList();
                         },
+                        
 
                         icon: Icon(
 
