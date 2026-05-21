@@ -1,62 +1,81 @@
 import 'package:flutter/material.dart';
+import 'fragment_holder.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => FragmentHolder()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body: Container(
-
-   decoration: BoxDecoration(
-
-    gradient: LinearGradient(
-
-      colors: [Colors.blue,Colors.purple,],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
-  ),
-      child:Column(children: [Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-
-              children: [
-
-              Text("v1.0",style: TextStyle(color: Colors.white,fontSize: 16,
-              ),
-              ),
-
-              ],
-            
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              "assets/a7395e40-2054-4147-8314-728e940a8063.jpg",
             ),
-          
-
-          SizedBox(height: 150),
-          Image.asset( "assets/park.png",height:120,width:120,),
-
-          
-
-          SizedBox(height: 20),
-
-          Text("AutoSlot", style: TextStyle(fontSize: 40,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 2,
-                            color: Colors.white,
-                            fontStyle: FontStyle.italic,
-            ),
+            fit: BoxFit.cover,
           ),
+        ),
 
-        SizedBox(height: 30),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "v1.0",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ],
+            ),
 
-        CircularProgressIndicator(color: Colors.white,),
+            SizedBox(height: 150),
 
-        SizedBox(height: 20),
+            Image.asset("assets/park.png", height: 110, width: 110),
 
-        Text("Your Parking Solution",style: TextStyle(fontSize: 18,color: Colors.white70,), ),
+            SizedBox(height: 20),
 
-    ],
+            Text(
+              "AutoSlot",
+              style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 2,
+                color: Colors.white,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+
+            SizedBox(height: 30),
+
+            CircularProgressIndicator(color: Colors.white),
+
+            SizedBox(height: 20),
+
+            Text(
+              "Your Parking Solution",
+              style: TextStyle(fontSize: 18, color: Colors.white70),
+            ),
+          ],
+        ),
       ),
-  ),
-);
+    );
   }
 }
