@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ParkingScreen extends StatefulWidget {
-
   final Map data;
   final List<Map<String, dynamic>> studentData;
   final Function refreshList;
@@ -24,7 +23,10 @@ class _ParkingScreenState extends State<ParkingScreen> {
       {"slot": "A4", "available": false},
       {"slot": "A5", "available": true},
       {"slot": "A6", "available": true},
+      {"slot": "A7", "available": true},
+      {"slot": "A8", "available": false},
     ],
+
     "Ahmedabad": [
 
       {"slot": "B1", "available": true},
@@ -33,7 +35,10 @@ class _ParkingScreenState extends State<ParkingScreen> {
       {"slot": "B4", "available": true},
       {"slot": "B5", "available": false},
       {"slot": "B6", "available": true},
+      {"slot": "B7", "available": false},
+      {"slot": "B8", "available": true},
     ],
+
     "Surat": [
       {"slot": "C1", "available": false},
       {"slot": "C2", "available": true},
@@ -41,14 +46,15 @@ class _ParkingScreenState extends State<ParkingScreen> {
       {"slot": "C4", "available": false},
       {"slot": "C5", "available": true},
       {"slot": "C6", "available": false},
+      {"slot": "B6", "available": true},
+      {"slot": "B6", "available": false},
     ],
   };
 
   String? selectedCity;
-
   @override
   Widget build(BuildContext context) {
-
+    //used for navigation
     List selectedSlots = [];
 
     if (selectedCity != null) {
@@ -64,9 +70,10 @@ class _ParkingScreenState extends State<ParkingScreen> {
     int availableCount = selectedSlots
         .where((slot) => slot["available"] == true)
         .length;
-
     int reservedCount = selectedSlots
-        .where((slot) => slot["available"] == false)
+        .where(
+          (slot) => slot["available"] == false,
+        ) //Sirf reserved slots filter honge
         .length;
 
     return Padding(
